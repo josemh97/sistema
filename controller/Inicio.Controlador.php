@@ -35,7 +35,7 @@ class InicioControlador {
         }
     }
 
-    public function Cerrar (){
+    public function Cerrar(){
         unset($_SESSION["usuario"]);
         unset($_SESSION["nombre"]);
         unset($_SESSION['privilegio']);

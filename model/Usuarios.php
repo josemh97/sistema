@@ -41,7 +41,20 @@ class Usuarios {
 			$sql = "SELECT COUNT(*) as isRegistrado, privilegio, login, nombre FROM usuarios WHERE login = :usuario AND password = :password";
             $code = $this->pdo->prepare($sql);
 			$code->bindValue(":usuario", $usuario);
-			$code->bindValue(":password", $password);
+			//$code->bindValue(":password", $password);
+			$code->bindValue(":password", hash("sha256", $password));
+			$code->execute();
+			return $code->fetch(PDO::FETCH_OBJ);
+		}catch(Exception $e){
+			die($e->getMessage());
+		}	
+	}
+
+	public function Existe($usuario){
+		try{
+			$sql = "SELECT COUNT(*) as isRegistrado, nombre FROM usuarios WHERE login = :usuario;";
+            $code = $this->pdo->prepare($sql);
+			$code->bindValue(":usuario", $usuario);
 			$code->execute();
 			return $code->fetch(PDO::FETCH_OBJ);
 		}catch(Exception $e){

@@ -19,7 +19,7 @@ ENGINE = innoDB;
 
 CREATE TABLE departamento (
 idDepartamento INT NOT NULL,
-nomdep VARCHAR(20),
+nomdep VARCHAR(50),
 PRIMARY KEY (idDepartamento)
 )
 ENGINE = innoDB;
@@ -32,8 +32,8 @@ PRIMARY KEY (idTipoApoyo)
 ENGINE = innoDB;
 
 CREATE TABLE usuarios (
-    idUsu INT NOT NULL AUTO_INCREMENT,
-    login VARCHAR(30) PRIMARY KEY NOT NULL,
+    idUsu INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    login VARCHAR(30) NOT NULL,
     password VARCHAR(256) NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     departamento VARCHAR(100) NOT NULL,
@@ -61,4 +61,4 @@ INSERT INTO `tipoapoyo` (`idTipoApoyo`, `nomapoy`) VALUES ('01', 'Cemento'),
 ('06', 'Aparatos'), ('07', 'Econ�micos'), ('08', 'Granjas'), ('09', 'Semillas'), 
 ('10', 'Becas'), ('11', 'Medicamentos');
 
-insert into usuarios values ('root', '123456', 'root', 'Obras Publicas', 'sAdministrador');
+insert into usuarios (login, password, nombre, departamento, privilegio) values ('root', SHA2('123456',256), 'root', 'Obras Publicas', 'sAdministrador');

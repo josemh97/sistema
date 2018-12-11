@@ -1,66 +1,79 @@
- <!-- Navbar-->
- <header class="app-header"><a class="app-header__logo" href="index.php">Apoyos</a>
-      <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
-      <!-- Navbar Right Menu-->
-      <ul class="app-nav">
-        <!-- User Menu-->
-        <li><a class="app-nav__item" href="?c=Inicio&a=Cerrar"><i class="fa fa-sign-out fa-lg"></i> Salir</a></li>
-      </ul>
-    </header>
-    <!-- Sidebar menu-->
-    <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-    <aside class="app-sidebar">
-      <div>
-        <img class="d-block mx-auto pb-4" src="assets/img/logo2.png" width="40%" alt="" srcset="">
+<?php
+if(!isset($_SESSION['usuario'])){
+  header("Location: index.php");
+}else{
+ if($_SESSION['privilegio'] == "Administrador"){
+  header("Location: index.php?c=Administrador");
+} 
+}
+?>
+<!-- Navbar-->
+<header class="app-header"><a class="app-header__logo" href="index.php">Apoyos</a>
+  <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
+  <!-- Navbar Right Menu-->
+  <ul class="app-nav">
+    <!-- User Menu-->
+    <li><a class="app-nav__item" href="?c=Inicio&a=Cerrar"><i class="fa fa-sign-out fa-lg"></i> Salir</a></li>
+  </ul>
+</header>
+<!-- Sidebar menu-->
+<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+<aside class="app-sidebar">
+  <div>
+    <img class="d-block mx-auto pb-4" src="assets/img/logo2.png" width="40%" alt="" srcset="">
+  </div>
+  <ul class="app-menu">
+    <li><a class="app-menu__item " href="?c=sAdministrador"><i class="app-menu__icon fa fa-search"></i><span class="app-menu__label">Buscar Beneficiado</span></a></li>
+    <li><a class="app-menu__item" href="?c=sAdministrador&a=FormAgregar"><i class="app-menu__icon fa fa-user"></i><span class="app-menu__label">Registrar Beneficiado</span></a></li>
+    <li><a class="app-menu__item active" href="?c=sAdministrador&a=FormAgregarAdmin"><i class="app-menu__icon fa fa-user"></i><span class="app-menu__label">Registrar Administrador</span></a></li>
+  </ul>
+</aside>
+<main class="app-content">
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-dashboard"></i> Registro</h1>
+      <p>Registra administradores para el uso del sistema</p>
+      <h5 id="mensajes" class="pt-2 text-success">
+        <?php
+        if(isset($_SESSION["mensajes"])){
+          echo $_SESSION["mensajes"];
+          unset($_SESSION["mensajes"]);
+        } else {
+          echo "";
+        }
+        ?></h5>
       </div>
-      <ul class="app-menu">
-        <li><a class="app-menu__item " href="?c=sAdministrador"><i class="app-menu__icon fa fa-search"></i><span class="app-menu__label">Buscar Beneficiado</span></a></li>
-        <li><a class="app-menu__item" href="?c=sAdministrador&a=FormAgregar"><i class="app-menu__icon fa fa-user"></i><span class="app-menu__label">Registrar Beneficiado</span></a></li>
-        <li><a class="app-menu__item active" href="?c=sAdministrador&a=FormAgregarAdmin"><i class="app-menu__icon fa fa-user"></i><span class="app-menu__label">Registrar Administrador</span></a></li>
+      <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="#">Registro</a></li>
       </ul>
-    </aside>
-    <main class="app-content">
-      <div class="app-title">
-        <div>
-          <h1><i class="fa fa-dashboard"></i> Registro</h1>
-          <p>Registra administradores para el uso del sistema</p>
-          <h5 id="mensajes" class="pt-2 text-success">
-          <?php
-          if(isset($_SESSION["mensajes"])){
-            echo $_SESSION["mensajes"];
-            unset($_SESSION["mensajes"]);
-          } else {
-            echo "";
-          }
-          ?></h5>
-        </div>
-        <ul class="app-breadcrumb breadcrumb">
-          <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-          <li class="breadcrumb-item"><a href="#">Registro</a></li>
-        </ul>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
+    </div>
+    <div class="row">
+      <div class="col-md-12">
         <form method="POST" action="?c=sAdministrador&a=registrar" autocomplete="off">
           <div class="form-group">
             <label class="control-label">Nombre</label>
             <input
-              class="form-control"
-              type="text"
-              placeholder="Ingrese el nombre del administrador"
-              name="nombre"
+            class="form-control"
+            type="text"
+            placeholder="Ingrese el nombre del administrador"
+            name="nombre"
+            required
             />
           </div>
           <div class="form-group">
             <label class="control-label">Usuario</label>
             <input
-              class="form-control"
-              type="text"
-              placeholder="Ingrese el nombre de usuario"
-              name="usuario"
+            class="form-control"
+            type="text"
+            placeholder="Ingrese el nombre de usuario"
+            name="usuario" 
+            id="usuario" 
+            onchange="validarUsuario();"
+            required
             />
+            <span id="errorNombreUsuario" style="color:#FF0000;"></span><!--Error nombre de usuario-->
           </div>
-
 
           <div class="row">
             <div class="col-md-6">
@@ -68,7 +81,7 @@
                 <label for="deparamentos">Departamento</label>
                 <select id="deparamentos" class="form-control" name="departamento">
                   <?php foreach($departamentos as $departamento): ?>
-                  <option value="<?= $departamento->nomdep; ?>"><?= $departamento->nomdep; ?></option>
+                    <option value="<?= $departamento->nomdep; ?>"><?= $departamento->nomdep; ?></option>
                   <?php endforeach; ?>
                 </select>
               </div>
@@ -84,8 +97,6 @@
             </div>
           </div>
 
-          
-
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
@@ -96,10 +107,11 @@
                       <span class="input-group-text"><i class="fa fa-lock"></i></span>
                     </div>
                     <input
-                      class="form-control"
-                      type="password"
-                      placeholder="Contraseña"
-                      name="password"
+                    class="form-control"
+                    type="password"
+                    placeholder="Contraseña"
+                    name="password"
+                    required
                     />
                   </div>
                 </div>
@@ -114,10 +126,11 @@
                       <span class="input-group-text"><i class="fa fa-lock"></i></span>
                     </div>
                     <input
-                      class="form-control"
-                      type="password"
-                      placeholder="Confirmar contraseña"
-                      name="confirmarPasswd"
+                    class="form-control"
+                    type="password"
+                    placeholder="Confirmar contraseña"
+                    name="confirmarPasswd"
+                    required
                     />
                   </div>
                 </div>
@@ -127,15 +140,36 @@
 
           <p class="text-danger m-3"><?= (isset($errores) ? $errores : ""); ?></p>
 
-          <input type="submit" class="btn btn-lg btn-success d-block mx-auto mt-3" value="Registrar">
+          <input type="submit" class="btn btn-lg btn-success d-block mx-auto mt-3" value="Registrar" id="submit">
         </form>
       </div>
-      </div>
-    </main>
+    </div>
+  </main>
 
-    <script>
-      var timePeriodInMs = 4000;
-      setTimeout(function() { 
-          document.getElementById("mensajes").style.visibility = "hidden"; 
-      }, timePeriodInMs);
-    </script>
+  <script>
+    var timePeriodInMs = 4000;
+    setTimeout(function() { 
+      document.getElementById("mensajes").style.visibility = "hidden"; 
+    }, timePeriodInMs);
+
+    function  validarUsuario(){
+      var user =document.getElementById('usuario').value;
+
+      var route="?c=sAdministrador&a=validarusuario&u="+user;
+
+      $.get(route,function(res){
+          if (res==true)  {
+          document.getElementById("errorNombreUsuario").innerHTML = "El usuario que intenta registrar ya existe en el sistema";
+          document.getElementById('submit').disabled=true;
+        }
+        else {
+          document.getElementById("errorNombreUsuario").innerHTML = "";
+          document.getElementById('submit').disabled=false;
+        }
+      });
+
+    }
+
+
+
+  </script>

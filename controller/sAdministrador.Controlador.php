@@ -2,6 +2,7 @@
 
 require_once "model/sAdministrador.php";
 require_once "model/Administrador.php";
+require_once "model/Usuarios.php";
 
 class sAdministradorControlador {
     private $modelo;
@@ -95,7 +96,8 @@ class sAdministradorControlador {
         $administrador->setNombre($_POST["nombre"]);
         $administrador->setUsuario($_POST["usuario"]);
         $administrador->setDepartamento($_POST["departamento"]);
-        $administrador->setPassword($_POST["password"]);
+        //$administrador->setPassword($_POST["password"]);
+        $administrador->setPassword(hash("sha256", $_POST["password"]));
         $administrador->setPrivilegio($_POST["privilegio"]);
         if($_POST["password"] == $_POST["confirmarPasswd"]){
             if($this->modelo->Registrar($administrador) == "error"){
@@ -114,6 +116,19 @@ class sAdministradorControlador {
             require_once "view/superAdmin/inicio.php";
             require_once "view/footer.php";
         }
+    }
+
+    public function validarusuario()
+    {
+        $modelo = new Usuarios();
+        $flag=false;
+        $user=$_GET['u'];
+        $ingreso = $modelo->Existe($user);
+        if($ingreso->isRegistrado == "1"){
+            $flag=true;
+        }
+
+        echo $flag;
     }
 }
 

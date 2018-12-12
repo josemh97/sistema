@@ -3,7 +3,7 @@
 class BaseDeDatos {
     const servidor = "localhost";
     const usuario = "root";
-    const password = "IGA181296";
+    const password = "";
     const basededatos = "verificacionapoyos";
 
     public static function Conectar(){

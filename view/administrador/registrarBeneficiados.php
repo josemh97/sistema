@@ -52,7 +52,7 @@ if(!isset($_SESSION['usuario'])){
             <input
             class="form-control"
             type="text"
-            
+            requiered
             name="nombre"
             value="<?= $p->getNombre(); ?>"
             />

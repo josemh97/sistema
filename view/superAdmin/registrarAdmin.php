@@ -58,6 +58,7 @@ if(!isset($_SESSION['usuario'])){
             type="text"
             placeholder="Ingrese el nombre del administrador"
             name="nombre"
+            maxlength="100"
             required
             />
           </div>
@@ -69,6 +70,7 @@ if(!isset($_SESSION['usuario'])){
             placeholder="Ingrese el nombre de usuario"
             name="usuario" 
             id="usuario" 
+            maxlength="100"
             onchange="validarUsuario();"
             required
             />
@@ -111,6 +113,7 @@ if(!isset($_SESSION['usuario'])){
                     type="password"
                     placeholder="Contraseña"
                     name="password"
+                    maxlength="256"
                     required
                     />
                   </div>
@@ -130,6 +133,7 @@ if(!isset($_SESSION['usuario'])){
                     type="password"
                     placeholder="Confirmar contraseña"
                     name="confirmarPasswd"
+                    maxlength="256"
                     required
                     />
                   </div>

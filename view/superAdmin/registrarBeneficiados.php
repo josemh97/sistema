@@ -43,7 +43,7 @@ if(!isset($_SESSION['usuario'])){
   <div class="row">
     <div class="col-md-12">
       <div class="col-md-12">
-        <form method="POST" action="?c=sAdministrador&a=guardar" autocomplete="off">
+        <form method="POST" action="?c=sAdministrador&a=guardar" autocomplete="off" parsley-validate novalidate>
           <div class="form-group">
             <input
             type="hidden"
@@ -151,6 +151,7 @@ if(!isset($_SESSION['usuario'])){
                     type="text"
                     parsley-regexp="([A-Z,Ñ,&]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[A-Z|\d]{3})"
                     name="rfc"
+                    maxlength="20"
                     value="<?= $p->getRFC(); ?>"
                     />
                   </div>
@@ -222,7 +223,7 @@ if(!isset($_SESSION['usuario'])){
                     <input
                     class="form-control"
                     type="text"
-                    
+                    maxlength="20"
                     name="perRecibe"
                     value="<?= $p->getPerRecibe(); ?>"
                     />
